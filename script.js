@@ -28,3 +28,23 @@ etchContainer.style.display = "flex";
 
 bodyContainer.appendChild(h1);
 bodyContainer.appendChild(etchContainer);
+
+for (let i = 0; i < 16; i++) {
+  const column = document.createElement("div");
+  column.classList.add("column");
+  for (let j = 0; j < 16; j++) {
+    let cell = document.createElement("div");
+    cell.classList.add("cell");
+    etchContainer.appendChild(cell);
+    cell.style.margin = "0";
+    cell.style.outline = "0.01px solid black";
+    cell.style.display = "flex";
+    cell.style.flex = "1 1 0";
+    cell.style.height = "25px";
+    cell.style.width = "25px";
+    cell.style.backgroundColor = "red";
+
+    column.appendChild(cell);
+  }
+  etchContainer.appendChild(column);
+}
