@@ -5,8 +5,8 @@ body.style.minHeight = "100vh";
 body.style.display = "flex";
 body.style.flexDirection = "column";
 body.style.alignItems = "center";
-body.style.justifyContent = "space-evenly";
-body.style.margin = "0";
+// body.style.justifyContent = "space-evenly";
+body.style.marginTop = "50px";
 
 const bodyContainer = document.createElement("div");
 bodyContainer.classList.add("bodyContainer");
@@ -24,36 +24,84 @@ etchContainer.style.width = "400px";
 etchContainer.style.height = "400px";
 etchContainer.style.border = "2px solid black";
 etchContainer.style.display = "flex";
+etchContainer.flexDirection = "column";
 
-bodyContainer.appendChild(h1);
-bodyContainer.appendChild(etchContainer);
+const gridSizebtn = document.createElement("button");
+gridSizebtn.classList.add("gridSize-btn");
+gridSizebtn.textContent = "Change Grid Size";
+gridSizebtn.style.marginTop = "10px";
 
 function createGrid(num) {
   for (let i = 0; i < num; i++) {
     const column = document.createElement("div");
     column.classList.add("column");
+    column.style.flex = "1";
     for (let j = 0; j < num; j++) {
       let cell = document.createElement("div");
       cell.classList.add("cell");
-      etchContainer.appendChild(cell);
+      // etchContainer.appendChild(cell);
       cell.style.margin = "0";
       cell.style.outline = "0.01px solid black";
       cell.style.display = "flex";
-      cell.style.flex = "1 1 0";
-      cell.style.height = "25px";
-      cell.style.width = "25px";
-
+      // cell.style.flex = "0 1 0";
+      cell.style.height = `${400 / num}px`;
+      cell.style.width = `${400 / num}px`;
       column.appendChild(cell);
     }
     etchContainer.appendChild(column);
   }
 }
-createGrid(16);
+
+createGrid(16); //default size
+
+gridSizebtn.addEventListener("click", () => {
+  document.querySelectorAll(".cell").forEach((e) => {
+    e.remove();
+  }); //erases previous grid to make space for new grid
+
+  let size = prompt(`Enter size of grid: 
+  (ex: 16 means 16x16 grid)`);
+  createGrid(size);
+
+  const gridDivs = document.querySelectorAll(".cell");
+
+  gridDivs.forEach((div) => {
+    div.addEventListener("mouseover", () => {
+      div.style.backgroundColor = "black";
+    });
+  }); //allows for etch-a-sketch like functionality onto the window
+});
+
+bodyContainer.appendChild(h1);
+bodyContainer.appendChild(etchContainer);
+bodyContainer.appendChild(gridSizebtn);
 
 const gridDivs = document.querySelectorAll(".cell");
 
 gridDivs.forEach((div) => {
   div.addEventListener("mouseover", () => {
     div.style.backgroundColor = "black";
+  });
+}); //allows for etch-a-sketch like functionality onto the window
+
+const resetGrid = document.createElement("button");
+resetGrid.classList.add("resetGrid-btn");
+resetGrid.textContent = "Reset Grid";
+resetGrid.style.marginTop = "10px";
+resetGrid.style.marginLeft = "5px";
+
+bodyContainer.appendChild(resetGrid);
+
+resetGrid.addEventListener("click", () => {
+  document.querySelectorAll(".cell").forEach((e) => {
+    e.remove();
+  });
+  createGrid(16);
+  const gridDivs = document.querySelectorAll(".cell");
+
+  gridDivs.forEach((div) => {
+    div.addEventListener("mouseover", () => {
+      div.style.backgroundColor = "black";
+    });
   });
 });
